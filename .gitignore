@@ -37,3 +37,8 @@ next-env.d.ts
 
 
 yarn.lock
+
+.env.production
+.env.local
+
+.vscode
