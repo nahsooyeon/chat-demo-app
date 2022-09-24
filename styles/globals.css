@@ -2,6 +2,10 @@
 @tailwind utilities;
 @tailwind base;
 
+#__next {
+  display: flex;
+}
+
 html,
 body {
   padding: 0;
