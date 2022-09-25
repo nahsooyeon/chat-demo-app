@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from "react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { auth } from "../lib/firebaseConfig";
+import { auth } from "../firebase.config";
 
 const LoginForm = () => {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);

@@ -5,7 +5,7 @@ import { FC, memo } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { FaUserCircle } from "react-icons/fa";
-import { auth, db } from "../lib/firebaseConfig";
+import { auth, db } from "../firebase.config";
 import getFriendEmail from "../lib/getFriendEmail";
 import { IChat } from "./Sidebar";
 
@@ -33,7 +33,9 @@ const ChatListItem: FC<TProps> = (props) => {
         key={Math.random()}
         className="flex flex-row items-center p-2 w-full cursor-pointer"
       >
-        <FaUserCircle color="gray" size={36} />
+        <div className="flex shrink-0 w-9">
+          <FaUserCircle color="gray" size={36} width={64} height={64} />
+        </div>
         <div className="ml-3 flex flex-col">
           {chat && <span>{getFriendEmail(chat?.users, user as User)}</span>}
           <span className="text-sm">{messages[0]?.text}</span>
