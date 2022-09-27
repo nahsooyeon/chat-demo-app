@@ -14,7 +14,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <FadeLoader color="#36d7b7" />
       </div>
     );
-  } else if (!user) {
+  }
+
+  if (!user) {
     return <LoginForm />;
   }
 
