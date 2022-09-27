@@ -71,7 +71,7 @@ const Sidebar = () => {
             height={49}
             alt="profileImage"
           />
-          <span className="block font-semibold ml-2 sm:ml-4  text-base text-[2.5vw] sm:text-lg">
+          <span className="block font-semibold ml-2 sm:ml-4  text-base  sm:text-lg">
             {user?.displayName}
           </span>
         </div>
