@@ -12,6 +12,7 @@ import { auth, db } from "../../firebase.config";
 import { TopBar, InputBar } from "../../components/ChattingBar";
 import getFriendEmail from "../../lib/getFriendEmail";
 import { User } from "firebase/auth";
+import { LinkItUrl } from "react-linkify-it";
 
 const ChatPage = () => {
   const router = useRouter();
@@ -40,7 +41,9 @@ const ChatPage = () => {
                 : "relative max-w-xl px-4 py-2 text-gray-700 bg-primary text-white rounded shadow"
             }
           >
-            <span className="block">{msg.text}</span>
+            <LinkItUrl>
+              <span className="block">{msg.text}</span>
+            </LinkItUrl>
           </div>
         </li>
       );
