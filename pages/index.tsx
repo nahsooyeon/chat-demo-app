@@ -12,7 +12,6 @@ const Home: NextPage = () => {
       </Head>
       <div className="flex flex-row">
         <Sidebar />
-        <div className="flex flex-1 flex-col bg-secondaryWhite h-screen w-full"></div>
       </div>
     </>
   );
