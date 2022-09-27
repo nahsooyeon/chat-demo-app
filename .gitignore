@@ -45,3 +45,5 @@ yarn.lock
 .vscode
 
 firebase_admin.json
+
+.firebase
