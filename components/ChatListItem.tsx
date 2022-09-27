@@ -44,7 +44,7 @@ const ChatListItem: FC<TProps> = (props) => {
         </div>
         <div className={"ml-1 sm:ml-3 flex flex-col w-full "}>
           {chat && (
-            <span className="text-[0.7vw] sm:text-md line-clamp-2 break-all whitespace-normal overflow-hidden ">
+            <span className="text-xs sm:text-lg line-clamp-2 break-all whitespace-normal overflow-hidden ">
               {getFriendEmail(chat?.users, user as User)}
             </span>
           )}
