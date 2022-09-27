@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect, useCallback, memo } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { signOut, User } from "firebase/auth";
 import { auth, db } from "../firebase.config";
 import { RiLogoutBoxRLine } from "react-icons/ri";
-// import ChatListItem from "./ChatListItem";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Image from "next/image";
 import { collection, addDoc } from "@firebase/firestore";
@@ -22,6 +21,10 @@ const Sidebar = () => {
   const [user] = useAuthState(auth);
   const router = useRouter();
   const [snapshot, loading, error] = useCollection(collection(db, "chats"));
+  const chats = snapshot?.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as Array<IChat>;
 
   const isChatExists = (email: string) =>
     chats?.find(
@@ -37,7 +40,7 @@ const Sidebar = () => {
     } else if (
       !isChatExists(input as string) &&
       input !== user?.email &&
-      isEmail(input) 
+      isEmail(input)
     ) {
       await addDoc(collection(db, "chats"), { users: [user?.email, input] });
     } else {
@@ -45,59 +48,56 @@ const Sidebar = () => {
       return;
     }
   };
-  const chats = snapshot?.docs.map(
-    (doc) => ({ id: doc.id, ...doc.data() } as IChat)
-  ) as Array<IChat>;
+
+  const logout = () => {
+    signOut(auth);
+    router.replace("/");
+  };
 
   const ChatList = () => {
-    if (chats) {
-      return chats
-        .filter((chat) => chat.users?.includes((user as User).email as string))
-        .map((chat, idx) => {
-          return <ChatListItem key={Math.random()} chat={chat} />;
-        });
-    } else {
-      return null;
-    }
+    return chats
+      ?.filter((chat) => chat.users.includes((user as User)?.email as string))
+      .map((chat) => <ChatListItem key={Math.random()} chat={chat} />);
   };
 
   return (
-    <div className="flex flex-col w-[40vw]  h-screen  p-4 border-r-[1px] border-borderGray">
-      <div className="flex flex-row justify-between w-full items-center">
-        <div className="flex flex-row items-center">
+    <div className="flex flex-col w-[40vw]  h-screen  py-4 border-r-[1px] border-borderGray">
+      <div className="flex flex-row justify-between w-full items-center px-2">
+        <div className="flex flex-row items-center ">
           <Image
-            className="rounded-full"
+            className="rounded-full "
             src={user?.photoURL as string}
             width={49}
             height={49}
             alt="profileImage"
           />
-          <span className="block ml-4 text-lg">{user?.displayName}</span>
+          <span className="block font-semibold ml-2 sm:ml-4 text-[2.5vw] sm:text-lg">
+            {user?.displayName}
+          </span>
         </div>
         <RiLogoutBoxRLine
-          onClick={() => {
-            signOut(auth);
-            router.replace("/");
-          }}
+          onClick={logout}
           className="rounded-full bg-secondaryWhite"
           size={25}
         />
       </div>
-      <div
-        onClick={() => {
-          newChat();
-        }}
-        className="my-3 p-2 font-medium rounded bg-tertiary text-center w-full cursor-pointer"
-      >
-        New Chat
+      <div className="my-3 p-2  w-full cursor-pointer">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            newChat();
+          }}
+          className="font-medium rounded bg-tertiary text-center w-full "
+        >
+          New Chat
+        </button>
       </div>
-      {/* ChatListItem */}
+
       <div className="flex flex-col overflow-y-scroll scrollbar-hide">
         {ChatList()}
-        {/* <ChatListItem /> */}
       </div>
     </div>
   );
 };
 
-export default memo(Sidebar);
+export default Sidebar;
