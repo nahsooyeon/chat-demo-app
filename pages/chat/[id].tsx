@@ -2,7 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { collection, doc, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  DocumentData,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   useCollectionData,
@@ -11,7 +17,7 @@ import {
 import { auth, db } from "../../firebase.config";
 import { TopBar, InputBar } from "../../components/ChattingBar";
 import getFriendEmail from "../../lib/getFriendEmail";
-import { User } from "firebase/auth";
+import { signOut, User } from "firebase/auth";
 import { LinkItUrl } from "react-linkify-it";
 
 const ChatPage = () => {
@@ -26,7 +32,7 @@ const ChatPage = () => {
   const bottomOfChatRef = useRef<HTMLDivElement>(null);
 
   const getMessages = () =>
-    messages?.map((msg) => {
+    messages?.map((msg: DocumentData) => {
       // 보낸 사람이 본인
       const isSenderMe = msg.sender === user?.email;
       return (
@@ -50,6 +56,14 @@ const ChatPage = () => {
     });
 
   useEffect(() => {
+    if (user && chat && chat.users.includes(user.email) === false) {
+      signOut(auth);
+      router.replace("/");
+    }
+  }, [chat, router, user]);
+
+  useEffect(() => {
+    /* TODO: Firestore 보안 규칙 설정 필요 */
     if (bottomOfChatRef.current) {
       bottomOfChatRef.current.scrollIntoView({
         behavior: "smooth",
