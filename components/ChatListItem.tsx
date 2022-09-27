@@ -1,5 +1,6 @@
 import { User } from "@firebase/auth";
 import { query, collection, orderBy, DocumentData } from "firebase/firestore";
+import { isEmpty, update } from "lodash";
 import { useRouter } from "next/router";
 import { FC, memo } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -23,23 +24,39 @@ const ChatListItem: FC<TProps> = (props) => {
   );
 
   const [messages] = useCollectionData(q) as DocumentData[];
+
+  /* TODO: 클릭할 경우, 읽음처리하는 함수 */
+  const updateReadStatus = async () => {};
+
   return (
     chat &&
     messages && (
       <div
         onClick={() => {
+          updateReadStatus();
           router.replace(`/chat/${chat.id}`);
         }}
         key={Math.random()}
-        className="flex flex-row items-center p-2 w-full cursor-pointer"
+        className="flex flex-row items-center p-2 w-full cursor-pointer border-b border-borderGray"
       >
-        <div className="flex shrink-0 w-9">
+        <div className="flex w-4 sm:w-9">
           <FaUserCircle color="gray" size={36} width={64} height={64} />
         </div>
-        <div className="ml-3 flex flex-col">
-          {chat && <span>{getFriendEmail(chat?.users, user as User)}</span>}
-          <span className="text-sm">{messages[0]?.text}</span>
+        <div className={"ml-1 sm:ml-3 flex flex-col w-full "}>
+          {chat && (
+            <span className="text-[0.7vw] sm:text-md line-clamp-2 break-all whitespace-normal overflow-hidden ">
+              {getFriendEmail(chat?.users, user as User)}
+            </span>
+          )}
+          <div className=" text-[1vw] sm:text-sm w-full  text-ellipsis overflow-hidden whitespace-nowrap ">
+            {messages[0]?.text}
+          </div>
         </div>
+        {!isEmpty(messages) &&
+          messages[0].sender !== user?.email &&
+          messages[0].isRead === false && (
+            <span className="flex shrink-0 items-center rounded-[50%] sm:w-4 sm:h-4 bg-primary"></span>
+          )}
       </div>
     )
   );
