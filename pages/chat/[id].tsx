@@ -19,6 +19,7 @@ import { TopBar, InputBar } from "../../components/ChattingBar";
 import getFriendEmail from "../../lib/getFriendEmail";
 import { signOut, User } from "firebase/auth";
 import { LinkItUrl } from "react-linkify-it";
+import getFormatedDate from "../../lib/getFormatedDate";
 
 const ChatPage = () => {
   const router = useRouter();
@@ -35,10 +36,11 @@ const ChatPage = () => {
     messages?.map((msg: DocumentData) => {
       // 보낸 사람이 본인
       const isSenderMe = msg.sender === user?.email;
+
       return (
         <li
           key={Math.random()}
-          className={!isSenderMe ? "flex justify-start" : "flex justify-end"}
+          className={!isSenderMe ? "flex justify-start " : "flex justify-end "}
         >
           <div
             className={
@@ -50,6 +52,10 @@ const ChatPage = () => {
             <LinkItUrl>
               <span className="block">{msg.text}</span>
             </LinkItUrl>
+          </div>
+          <div className="ml-1 mb-auto text-xs ">
+            test
+            {/*   {getFormatedDate(msg.timestamp)} */}
           </div>
         </li>
       );
