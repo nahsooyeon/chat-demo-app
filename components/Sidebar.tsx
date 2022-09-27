@@ -61,7 +61,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col w-[40vw]  h-screen  py-4 border-r-[1px] border-borderGray">
+    <div className="flex flex-col w-full sm:w-[40vw]  h-screen  py-4 border-r-[1px] border-borderGray">
       <div className="flex flex-row justify-between w-full items-center px-2">
         <div className="flex flex-row items-center ">
           <Image
@@ -71,7 +71,7 @@ const Sidebar = () => {
             height={49}
             alt="profileImage"
           />
-          <span className="block font-semibold ml-2 sm:ml-4 text-[2.5vw] sm:text-lg">
+          <span className="block font-semibold ml-2 sm:ml-4  text-base text-[2.5vw] sm:text-lg">
             {user?.displayName}
           </span>
         </div>
@@ -87,7 +87,7 @@ const Sidebar = () => {
             e.preventDefault();
             newChat();
           }}
-          className="font-medium rounded bg-tertiary text-center w-full "
+          className="font-medium rounded bg-tertiary p-2 text-center w-full "
         >
           New Chat
         </button>

@@ -78,7 +78,9 @@ const ChatPage = () => {
         <title>Pomme&apos;s Demo Chat 🍎 </title>
       </Head>
       <div className="flex flex-row">
-        <Sidebar />
+        <div className="sm:block hidden">
+          <Sidebar />
+        </div>
         <div className="flex flex-1 flex-col bg-secondaryWhite h-screen w-full">
           {chat && (
             <TopBar userEmail={getFriendEmail(chat?.users, user as User)} />

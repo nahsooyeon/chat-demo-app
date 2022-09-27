@@ -71,23 +71,23 @@ const ChatListItem: FC<TProps> = (props) => {
         key={Math.random()}
         className="flex flex-row items-center p-2 w-full cursor-pointer border-b border-borderGray"
       >
-        <div className="flex w-4 sm:w-9">
+        <div className="flex w-9 mr-2">
           <FaUserCircle color="gray" size={36} width={64} height={64} />
         </div>
-        <div className={"ml-1 sm:ml-3 flex flex-col w-full "}>
+        <div className={"ml-1 sm:ml-3 flex flex-col w-max "}>
           {chat && (
-            <span className="text-xs sm:text-lg line-clamp-2 break-all whitespace-normal overflow-hidden ">
+            <span className="text-base sm:text-lg line-clamp-2 break-all whitespace-normal overflow-hidden ">
               {getFriendEmail(chat?.users, user as User)}
             </span>
           )}
-          <div className=" text-[1vw] sm:text-sm w-full  text-ellipsis overflow-hidden whitespace-nowrap ">
+          <div className=" text-sm sm:text-sm w-full  text-ellipsis overflow-hidden whitespace-nowrap ">
             {messages[0]?.text}
           </div>
         </div>
         {!isEmpty(messages) &&
           messages[0].sender !== user?.email &&
           messages[0].isRead === false && (
-            <span className="flex shrink-0 items-center rounded-[50%] sm:w-4 sm:h-4 bg-primary"></span>
+            <div className=" rounded-[50%] w-4 h-4 bg-primary ml-auto"></div>
           )}
       </div>
     )

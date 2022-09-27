@@ -8,10 +8,10 @@ import {
   collection,
 } from "firebase/firestore";
 import { isEmpty } from "lodash";
+import { useRouter } from "next/router";
 import { FC, memo, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { FaUserCircle } from "react-icons/fa";
-import { GrSend } from "react-icons/gr";
+import { GrClose, GrSend } from "react-icons/gr";
 import { db } from "../firebase.config";
 
 type TTopBarProps = {
@@ -24,10 +24,21 @@ type TInputBarProps = {
 };
 
 export const TopBar: FC<TTopBarProps> = memo((props) => {
+  const router = useRouter();
   return (
     <div className="flex flex-row items-center p-4 w-full bg-tertiary">
-      <FaUserCircle size={36} />
-      <div className="font-semibold text-lg ml-2">{props.userEmail}</div>
+      <GrClose
+        onClick={(e) => {
+          e.preventDefault();
+          router.push("/");
+        }}
+        size={16}
+        className="absolute sm:hidden"
+      />
+      <div className="flex flex-col items-center justify-center mx-auto">
+        <FaUserCircle className="w-5 h-6" />
+        <div className="font-semibold sm:text-lg ml-2">{props.userEmail}</div>
+      </div>
     </div>
   );
 });
