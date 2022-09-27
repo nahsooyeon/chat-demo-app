@@ -1,5 +1,14 @@
 import { User } from "@firebase/auth";
-import { query, collection, orderBy, DocumentData } from "firebase/firestore";
+import {
+  query,
+  collection,
+  orderBy,
+  DocumentData,
+  doc,
+  where,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { isEmpty, update } from "lodash";
 import { useRouter } from "next/router";
 import { FC, memo } from "react";
@@ -26,7 +35,30 @@ const ChatListItem: FC<TProps> = (props) => {
   const [messages] = useCollectionData(q) as DocumentData[];
 
   /* TODO: 클릭할 경우, 읽음처리하는 함수 */
-  const updateReadStatus = async () => {};
+  const updateReadStatus = async () => {
+    const unreadQuery = query(
+      collection(db, `chats/${chat.id}/messages`),
+      where("isRead", "==", false)
+    );
+    let idArray: Array<string> = [];
+    const querySnapshot = await getDocs(unreadQuery);
+    if (querySnapshot.size !== 0) {
+      querySnapshot.forEach((doc) => {
+        idArray.push(doc.id);
+      });
+      for (let el of idArray) {
+        const unreadRef = doc(db, `chats/${chat.id}/messages`, el);
+        try {
+          await updateDoc(unreadRef, { isRead: true });
+        } catch (error) {
+          console.error(error);
+          return;
+        }
+      }
+    } else {
+      return;
+    }
+  };
 
   return (
     chat &&
