@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next export",
-    "deploy": "firebase deploy"
+    "deploy": "yarn build && yarn export && firebase deploy"
   },
   "dependencies": {
     "axios": "^0.27.2",
