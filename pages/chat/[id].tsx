@@ -19,7 +19,8 @@ import { TopBar, InputBar } from "../../components/ChattingBar";
 import getFriendEmail from "../../lib/getFriendEmail";
 import { signOut, User } from "firebase/auth";
 import { LinkItUrl } from "react-linkify-it";
-import getFormatedDate from "../../lib/getFormatedDate";
+import { getFormattedDate, getPassedDate } from "../../lib/getFormattedDate";
+import { isEmpty } from "lodash";
 
 const ChatPage = () => {
   const router = useRouter();
@@ -34,36 +35,55 @@ const ChatPage = () => {
   const [loadComplete, setLoadComplete] = useState<boolean>(false);
 
   const getMessages = () =>
-    messages?.map((msg: DocumentData) => {
+    messages?.map((msg: DocumentData, idx: number) => {
       // 보낸 사람이 본인
       const isSenderMe = msg.sender === user?.email;
+      const startDate = getPassedDate(
+        msg.timestamp,
+        messages[idx - 1]?.timestamp
+      );
 
       return (
-        <li
-          key={Math.random()}
-          className={!isSenderMe ? "flex justify-start " : "flex justify-end "}
-        >
-          <div
+        <>
+          {!isEmpty(startDate) && (
+            <div className="w-full text-xs text-center flex flex-row items-center justify-center pt-2 pb-1">
+              <div className=" flex-1  h-[1px] bg-borderGray"></div>
+              <span className="text-lightGray px-2">{startDate}</span>
+              <div className=" flex-1  h-[1px] bg-borderGray"></div>
+            </div>
+          )}
+
+          <li
+            key={Math.random()}
             className={
-              !isSenderMe
-                ? "relative max-w-xl px-4 py-2 text-gray-700 bg-white rounded shadow"
-                : "relative max-w-xl px-4 py-2 text-gray-700 bg-primary text-white rounded shadow"
+              !isSenderMe ? "flex justify-start " : "flex justify-end "
             }
           >
-            <LinkItUrl>
-              <span className="block">{msg.text}</span>
-            </LinkItUrl>
-          </div>
-          <div className="ml-1 mb-auto text-xs ">
-            test
-            {/*   {getFormatedDate(msg.timestamp)} */}
-          </div>
-        </li>
+            <div
+              className={
+                !isSenderMe
+                  ? "relative max-w-xl px-4 py-2 text-gray-700 bg-white rounded shadow"
+                  : "relative max-w-xl px-4 py-2 text-gray-700 bg-primary text-white rounded shadow"
+              }
+            >
+              <LinkItUrl>
+                <span className="block break-all whitespace-normal">
+                  {msg.text}
+                </span>
+              </LinkItUrl>
+            </div>
+            <div className=" text-xs flex justify-end items-end ml-2 text-gray ">
+              <span>{getFormattedDate(msg.timestamp)}</span>
+            </div>
+          </li>
+        </>
       );
     });
 
   useEffect(() => {
     if (user && chat && chat.users.includes(user.email) === false) {
+      /* TODO: Firestore 보안 규칙 설정 필요 */
+
       signOut(auth);
       router.replace("/");
     } else {
@@ -72,7 +92,6 @@ const ChatPage = () => {
   }, [chat, router, user]);
 
   useEffect(() => {
-    /* TODO: Firestore 보안 규칙 설정 필요 */
     if (bottomOfChatRef.current) {
       bottomOfChatRef.current.scrollIntoView({
         behavior: "smooth",
@@ -95,8 +114,8 @@ const ChatPage = () => {
             <TopBar userEmail={getFriendEmail(chat?.users, user as User)} />
           )}
           {loadComplete ? (
-            <div className="flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-3 h-max">
-              <ul className="space-y-2 flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-3 h-max">
+            <div className="flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-2  h-max">
+              <ul className="space-y-2 flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-1 h-max">
                 {/* 상대가 보낸 채팅일 경우 */}
                 {getMessages()}
                 <div ref={bottomOfChatRef}></div>
