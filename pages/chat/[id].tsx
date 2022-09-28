@@ -20,7 +20,7 @@ import getFriendEmail from "../../lib/getFriendEmail";
 import { signOut, User } from "firebase/auth";
 import { LinkItUrl } from "react-linkify-it";
 import { getFormattedDate, getPassedDate } from "../../lib/getFormattedDate";
-import { isEmpty } from "lodash";
+import { isEmpty, isNull } from "lodash";
 
 const ChatPage = () => {
   const router = useRouter();
@@ -36,7 +36,9 @@ const ChatPage = () => {
 
   const getMessages = () =>
     messages?.map((msg: DocumentData, idx: number) => {
-      // 보낸 사람이 본인
+      // 메세지 발송하는 시간과 이전 날짜가 다르면 렌더링하지않음.
+      /* 같은 경우를 default 로 놓고 */
+
       const isSenderMe = msg.sender === user?.email;
       const startDate = getPassedDate(
         msg.timestamp,

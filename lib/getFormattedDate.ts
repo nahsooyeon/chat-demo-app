@@ -19,9 +19,13 @@ export const getPassedDate = (
   let result = "";
   const mainDate = main?.toDate();
   const comparedDate = compared?.toDate();
-  if (typeof compared === "undefined") {
-    return (result = dayjs(mainDate).format("YYYY. M. D"));
+  if (typeof mainDate === "undefined") {
+    return result;
   }
+  if (typeof compared === "undefined") {
+    result = dayjs(mainDate).format("YYYY. M. D");
+  }
+
   if (mainDate?.getDate() === comparedDate?.getDate()) {
     return result;
   } else {
