@@ -24,14 +24,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Pomme&apos;s Demo Chat 🍎 </title>
-
-        <meta property="og:title" content={`Pomme's Demo Chat🍎`} key="title" />
+        <title>Pomme&apos;s Chat App 🍎 </title>
+        <meta property="og:title" content={`Pomme's Chat App🍎`} key="title" />
         <meta
           property="og:description"
           content={"Enjoy chatting with your friend!"}
           key="description"
         />
+        <meta name="description" content="Enjoy chatting with your friend!" />
         <link rel="icon"></link>
       </Head>
       <Component {...pageProps} />
