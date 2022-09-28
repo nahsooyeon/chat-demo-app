@@ -1,4 +1,4 @@
-# chat-demo-app
+# Pomme's Chat App 🍎 
 
 ## 기술 스택
 
