@@ -22,7 +22,7 @@ export const getPassedDate = (
   if (typeof compared === "undefined") {
     return (result = dayjs(mainDate).format("YYYY. M. D"));
   }
-  if (mainDate.getDate() === comparedDate?.getDate()) {
+  if (mainDate?.getDate() === comparedDate?.getDate()) {
     return result;
   } else {
     return (result = dayjs(mainDate).format("YYYY. M. D"));
