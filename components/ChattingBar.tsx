@@ -1,4 +1,3 @@
-import { auth } from "firebase-admin";
 import { User } from "firebase/auth";
 import {
   WithFieldValue,
@@ -13,6 +12,7 @@ import { FC, memo, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { GrClose, GrSend } from "react-icons/gr";
 import { db } from "../firebase.config";
+import { checkSpaceBug } from "../lib/checkSpace";
 
 type TTopBarProps = {
   userEmail: string;
@@ -55,7 +55,7 @@ export const InputBar: FC<TInputBarProps> = memo((props) => {
       | React.KeyboardEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
-    if (!isEmpty(inputMsg)) {
+    if (checkSpaceBug(inputMsg)) {
       try {
         let newMessage: WithFieldValue<DocumentData> = {};
         newMessage.isRead = false;

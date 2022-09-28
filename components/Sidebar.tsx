@@ -15,7 +15,8 @@ export interface IChat {
 import { useRouter } from "next/router";
 import ChatListItem from "./ChatListItem";
 import { isEmail } from "class-validator";
-import { isEmpty } from "lodash";
+import { isNull } from "lodash";
+import { checkSpaceBug } from "../lib/checkSpace";
 
 const Sidebar = () => {
   const [user] = useAuthState(auth);
@@ -35,7 +36,7 @@ const Sidebar = () => {
 
   const newChat = async () => {
     const input = prompt("대화를 시작할 친구의 이메일 주소를 입력해주세요.");
-    if (isEmpty(input)) {
+    if (!checkSpaceBug(input as string) || isNull(input)) {
       return;
     } else if (
       !isChatExists(input as string) &&
