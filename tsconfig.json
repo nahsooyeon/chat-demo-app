@@ -23,7 +23,7 @@
     "**/*.tsx",
     "tailwind.config.js",
     "postcss.config.js",
-    "firebase.config.js"
+    "firebase.config.ts"
   ],
   "exclude": ["node_modules"],
   "baseUrl": "./",
