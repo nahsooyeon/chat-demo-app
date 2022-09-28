@@ -116,7 +116,7 @@ const ChatPage = () => {
             <TopBar userEmail={getFriendEmail(chat?.users, user as User)} />
           )}
           {loadComplete ? (
-            <div className="flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-2  h-max">
+            <div className="flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-2 h-max">
               <ul className="space-y-2 flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-1 h-max">
                 {/* 상대가 보낸 채팅일 경우 */}
                 {getMessages()}
