@@ -14,9 +14,9 @@ export interface IChat {
 
 import { useRouter } from "next/router";
 import ChatListItem from "./ChatListItem";
-import { isEmail } from "class-validator";
 import { isNull } from "lodash";
 import { checkSpaceBug } from "../lib/checkSpace";
+import isEmail from "../lib/isEmail";
 
 const Sidebar = () => {
   const [user] = useAuthState(auth);
