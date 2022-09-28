@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next export ",
-    "build:prod": "export NODE_ENV=production && next build",
+    "build:prod": "cross-env NODE_ENV=production next build",
     "deploy": "yarn build && yarn export && firebase deploy"
   },
   "dependencies": {
@@ -34,6 +34,7 @@
     "@types/react-dom": "18.0.6",
     "@types/tailwindcss": "^3.1.0",
     "autoprefixer": "^10.4.12",
+    "cross-env": "^7.0.3",
     "eslint": "8.23.1",
     "eslint-config-next": "12.3.1",
     "postcss": "^8.4.16",
