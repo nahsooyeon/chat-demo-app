@@ -31,6 +31,7 @@ const ChatPage = () => {
   const [messages] = useCollectionData(q);
 
   const bottomOfChatRef = useRef<HTMLDivElement>(null);
+  const [loadComplete, setLoadComplete] = useState<boolean>(false);
 
   const getMessages = () =>
     messages?.map((msg: DocumentData) => {
@@ -65,6 +66,8 @@ const ChatPage = () => {
     if (user && chat && chat.users.includes(user.email) === false) {
       signOut(auth);
       router.replace("/");
+    } else {
+      setLoadComplete(true);
     }
   }, [chat, router, user]);
 
@@ -91,15 +94,17 @@ const ChatPage = () => {
           {chat && (
             <TopBar userEmail={getFriendEmail(chat?.users, user as User)} />
           )}
-          <div className="flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-3 h-max">
-            <ul className="space-y-2 flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-3 h-max">
-              {/* 상대가 보낸 채팅일 경우 */}
-              {getMessages()}
-              <div ref={bottomOfChatRef}></div>
-            </ul>
-            <InputBar id={id} user={user as User} />
-            {/* InputBar */}
-          </div>
+          {loadComplete ? (
+            <div className="flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-3 h-max">
+              <ul className="space-y-2 flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-3 h-max">
+                {/* 상대가 보낸 채팅일 경우 */}
+                {getMessages()}
+                <div ref={bottomOfChatRef}></div>
+              </ul>
+              <InputBar id={id} user={user as User} />
+              {/* InputBar */}
+            </div>
+          ) : null}
         </div>
       </div>
     </>
