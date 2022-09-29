@@ -9,6 +9,11 @@ module.exports = {
     minimumCacheTTL: 60,
   },
   async rewrites() {
-    return [{ source: "/chat", destination: "/" }];
+    return [
+      {
+        source: "/chat",
+        destination: "/",
+      },
+    ];
   },
 };
