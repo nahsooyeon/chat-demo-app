@@ -18,7 +18,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { auth, db } from "../firebase.config";
 import getFriendEmail from "../lib/getFriendEmail";
 import { IChat } from "./Sidebar";
-
+import uuid from "react-uuid";
 type TProps = {
   chat: IChat;
 };
@@ -68,7 +68,7 @@ const ChatListItem: FC<TProps> = (props) => {
           updateReadStatus();
           router.replace(`/chat/${chat.id}`);
         }}
-        key={Math.random()}
+        key={uuid()}
         className="flex flex-row items-center p-2 w-full cursor-pointer border-b border-borderGray"
       >
         <div className="flex w-9 mr-2">

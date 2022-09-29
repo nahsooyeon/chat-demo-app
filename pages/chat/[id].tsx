@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import uuid from "react-uuid";
+
 import {
   collection,
   doc,
@@ -51,7 +53,7 @@ const ChatPage = () => {
       );
 
       return (
-        <>
+        <li key={uuid()}>
           {!isEmpty(startDate) && (
             <div className="w-full text-xs text-center flex flex-row items-center justify-center pt-2 pb-1">
               <div className=" flex-1  h-[1px] bg-borderGray"></div>
@@ -59,9 +61,7 @@ const ChatPage = () => {
               <div className=" flex-1  h-[1px] bg-borderGray"></div>
             </div>
           )}
-
-          <li
-            key={Math.random()}
+          <div
             className={
               !isSenderMe ? "flex justify-start " : "flex justify-end "
             }
@@ -82,8 +82,8 @@ const ChatPage = () => {
             <div className=" text-xs flex justify-end items-end ml-2 text-gray ">
               <span>{getFormattedDate(msg.timestamp)}</span>
             </div>
-          </li>
-        </>
+          </div>
+        </li>
       );
     });
 
