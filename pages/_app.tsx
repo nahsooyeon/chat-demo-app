@@ -3,18 +3,14 @@ import type { AppProps } from "next/app";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase.config";
 import LoginForm from "../components/Login";
-import Head from "next/head";
+import CommonHead from "../components/Head";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [user, loading, error] = useAuthState(auth);
 
   if (loading) {
-    return (
-      <div className="w-screen flex items-center justify-center h-screen">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (!user) {
@@ -23,17 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Head>
-        <title>Pomme&apos;s Chat App 🍎 </title>
-        <meta property="og:title" content={`Pomme's Chat App🍎`} key="title" />
-        <meta
-          property="og:description"
-          content={"Enjoy chatting with your friend!"}
-          key="description"
-        />
-        <meta name="description" content="Enjoy chatting with your friend!" />
-        <link rel="icon"></link>
-      </Head>
+      <CommonHead />
       <Component {...pageProps} />
     </>
   );
