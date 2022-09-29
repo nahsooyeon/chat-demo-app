@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import Sidebar from "../../components/Sidebar";
+// import Sidebar from "../../components/Sidebar";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import {
@@ -21,6 +22,10 @@ import { signOut, User } from "firebase/auth";
 import { LinkItUrl } from "react-linkify-it";
 import { getFormattedDate, getPassedDate } from "../../lib/getFormattedDate";
 import { isEmpty, isNull } from "lodash";
+
+const Sidebar = dynamic(() => import("../../components/Sidebar"), {
+  suspense: true,
+});
 
 const ChatPage = () => {
   const router = useRouter();
