@@ -113,26 +113,26 @@ const Sidebar = () => {
           New Chat
         </button>
       </div>
-      <div className="rounded-full border-borderGray border w-full mx-1 flex  items-center px-2 py-2">
-        <FaSearch className="text-gray mr-2" width={16} height={16} />
-        <input
-          value={inputSearch}
-          maxLength={16}
-          placeholder="이메일 검색"
-          onChange={(e) => {
-            setInputSearch(e.target.value);
-          }}
-          className="w-full"
-        ></input>
-        <IoMdCloseCircle
-          onClick={resetInputSearch}
-          width={49}
-          height={49}
-          className="text-gray mr-0 ml-auto "
-        />
-      </div>
 
-      <div className="flex flex-col overflow-y-scroll scrollbar-hide">
+      <div className="flex flex-col overflow-y-scroll scrollbar-hide px-2">
+        <div className="rounded-full border-borderGray border w-full flex  items-center px-2 py-2">
+          <FaSearch className="text-gray mr-2" width={16} height={16} />
+          <input
+            value={inputSearch}
+            maxLength={16}
+            placeholder="이메일 검색"
+            onChange={(e) => {
+              setInputSearch(e.target.value);
+            }}
+            className="w-full"
+          ></input>
+          <IoMdCloseCircle
+            onClick={resetInputSearch}
+            width={49}
+            height={49}
+            className="text-gray mr-0 ml-auto "
+          />
+        </div>
         {ChatList(inputSearch)}
         {ChatList()?.length === 0 && <></>}
       </div>
