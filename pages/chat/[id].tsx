@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import Sidebar from "../../components/Sidebar";
+import React, { memo, useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import {
@@ -20,7 +19,8 @@ import getFriendEmail from "../../lib/getFriendEmail";
 import { signOut, User } from "firebase/auth";
 import { LinkItUrl } from "react-linkify-it";
 import { getFormattedDate, getPassedDate } from "../../lib/getFormattedDate";
-import { isEmpty, isNull } from "lodash";
+import { isEmpty } from "lodash";
+import ChatLayout from "../../layouts/ChatLayout";
 
 const ChatPage = () => {
   const router = useRouter();
@@ -38,13 +38,11 @@ const ChatPage = () => {
     messages?.map((msg: DocumentData, idx: number) => {
       // 메세지 발송하는 시간과 이전 날짜가 다르면 렌더링하지않음.
       /* 같은 경우를 default 로 놓고 */
-
       const isSenderMe = msg.sender === user?.email;
       const startDate = getPassedDate(
         msg.timestamp,
         messages[idx - 1]?.timestamp
       );
-
       return (
         <>
           {!isEmpty(startDate) && (
@@ -102,32 +100,33 @@ const ChatPage = () => {
     }
   }, [messages]);
 
+  const MessageList = memo(() => {
+    return (
+      <div className="flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-2 h-max">
+        <ul className="space-y-2 flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-1 h-max">
+          {/* 상대가 보낸 채팅일 경우 */}
+          {getMessages()}
+          <div ref={bottomOfChatRef}></div>
+        </ul>
+        <InputBar id={id} user={user as User} />
+        {/* InputBar */}
+      </div>
+    );
+  });
+
+  MessageList.displayName = "MessageList";
+
   return (
     <>
       <Head>
         <title>Pomme&apos;s Demo Chat 🍎 </title>
       </Head>
-      <div className="flex flex-row">
-        <div className="sm:block hidden">
-          <Sidebar />
-        </div>
-        <div className="flex flex-1 flex-col bg-secondaryWhite h-screen w-full">
-          {chat && (
-            <TopBar userEmail={getFriendEmail(chat?.users, user as User)} />
-          )}
-          {loadComplete ? (
-            <div className="flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-2 h-max">
-              <ul className="space-y-2 flex overflow-x-scroll scrollbar-hide flex-1 flex-col p-1 h-max">
-                {/* 상대가 보낸 채팅일 경우 */}
-                {getMessages()}
-                <div ref={bottomOfChatRef}></div>
-              </ul>
-              <InputBar id={id} user={user as User} />
-              {/* InputBar */}
-            </div>
-          ) : null}
-        </div>
-      </div>
+      <ChatLayout>
+        {chat && (
+          <TopBar userEmail={getFriendEmail(chat?.users, user as User)} />
+        )}
+        {loadComplete ? <MessageList /> : null}
+      </ChatLayout>
     </>
   );
 };
