@@ -134,7 +134,6 @@ const Sidebar = () => {
           />
         </div>
         {ChatList(inputSearch)}
-        {ChatList()?.length === 0 && <></>}
       </div>
     </div>
   );
