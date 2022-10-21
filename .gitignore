@@ -41,7 +41,7 @@ yarn.lock
 .env.production
 .env.local
 .env.development
-.env
+
 
 .vscode
 
